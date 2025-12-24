@@ -1,7 +1,13 @@
 package com.sph.owner.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import util.model.Address;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Owner {
 	private String ownerId;
 	private String ownerName;
@@ -13,6 +19,4 @@ public class Owner {
 	private String gstNumber;
 	//OwnerBankAccount ownerBankAccount;
 	Address address;
-
-
 }
