@@ -1,19 +1,22 @@
 package com.sph.owner.entity;
 
-public class Owner {
-	
-	/*
-	 * String ownerid; ->sphpo001
-	 * String ownerName;
-	 * String email;
-	 * long phno;
-	 * Address address;
-	 * String status; ->active/inactive
-	 * String companyName;
-	 * OwnersBankAccount accounts; (one to many)
-	 * boolean isBlocked
-	 */
-	
-	
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import util.model.Address;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Owner {
+	private String ownerId;
+	private String ownerName;
+	private String email;
+	private long phoneNumber;
+	private String status;
+	private String companyName;
+	private boolean isBlocked;
+	private String gstNumber;
+	//OwnerBankAccount ownerBankAccount;
+	Address address;
 }
