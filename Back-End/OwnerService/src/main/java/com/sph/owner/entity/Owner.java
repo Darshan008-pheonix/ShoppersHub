@@ -13,10 +13,10 @@ public class Owner {
 	private String ownerName;
 	private String email;
 	private long phoneNumber;
-	private String status;
+	private OwnerStatus status;
 	private String companyName;
 	private boolean isBlocked;
 	private String gstNumber;
-	//OwnerBankAccount ownerBankAccount;
-	Address address;
+	private OwnerBankAccount ownerBankAccount;
+	private Address address;
 }

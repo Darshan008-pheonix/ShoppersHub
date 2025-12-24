@@ -1,20 +1,20 @@
 package com.sph.owner.dto;
+import com.sph.owner.entity.OwnerStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import util.model.Address;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OwnerRequestDTo {
-	private String ownerName;
+public class OwnerSearchDto {
+
+    private String ownerId;
+    private String ownerName;
+    private String companyName;
     private String email;
     private String phoneNumber;
-    private String companyName;
     private String gstNumber;
-
-    private Address address;
-    private OwnerBankAccountDto ownerAccount;
+    private OwnerStatus status;
 }
