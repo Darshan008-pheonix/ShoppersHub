@@ -11,6 +11,7 @@
 	<groupId>com.sph</groupId>
 	<artifactId>ShoppersHubServiceRegistery</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>ShoppersHubServiceRegistery</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
