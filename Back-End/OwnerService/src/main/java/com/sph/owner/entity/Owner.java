@@ -18,5 +18,5 @@ public class Owner {
 	private boolean isBlocked;
 	private String gstNumber;
 	private OwnerBankAccount ownerBankAccount;
-	private Address address;
+	//private Address address;
 }
