@@ -18,7 +18,7 @@ import com.sph.owner.exception.OwnerNotFoundException;
 import com.sph.owner.repo.OwnerIdGeneratorRepo;
 import com.sph.owner.repo.OwnerRepo;
 import com.sph.owner.service.OwnerService;
-import com.sph.util.model.ResponseDto;
+import com.sph.util.dto.ResponseDto;
 import com.sph.util.service.CommonUtils;
 
 

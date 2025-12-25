@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sph.owner.dto.OwnerDto;
 import com.sph.owner.dto.OwnerSearchDto;
 import com.sph.owner.service.OwnerService;
-import com.sph.util.model.ResponseDto;
+import com.sph.util.dto.ResponseDto;
 
 
 

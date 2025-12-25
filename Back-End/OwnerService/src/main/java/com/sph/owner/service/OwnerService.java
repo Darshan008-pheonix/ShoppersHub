@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.sph.owner.dto.OwnerDto;
 import com.sph.owner.dto.OwnerSearchDto;
-import com.sph.util.model.ResponseDto;
+import com.sph.util.dto.ResponseDto;
 
 
 

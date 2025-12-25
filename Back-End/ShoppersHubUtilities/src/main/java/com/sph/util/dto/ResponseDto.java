@@ -1,4 +1,4 @@
-package com.sph.util.model;
+package com.sph.util.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

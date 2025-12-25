@@ -1,6 +1,6 @@
 package com.sph.util.service;
 
-import com.sph.util.model.ResponseDto;
+import com.sph.util.dto.ResponseDto;
 
 public class CommonUtils {
 	
