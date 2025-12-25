@@ -69,9 +69,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.sph</groupId>
-			 <artifactId>ShoppersHubUtilities</artifactId>
-   			 <version>0.0.1-SNAPSHOT</version>
+			 <groupId>com.sph</groupId>
+    <artifactId>ShoppersHubUtilities</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
     <groupId>org.modelmapper</groupId>

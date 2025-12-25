@@ -6,8 +6,9 @@ import org.springframework.http.ResponseEntity;
 
 import com.sph.owner.dto.OwnerDto;
 import com.sph.owner.dto.OwnerSearchDto;
+import com.sph.util.model.ResponseDto;
 
-import util.model.ResponseDto;
+
 
 public interface OwnerService {
 		ResponseDto<Object> addOwner(OwnerDto dto);
@@ -19,7 +20,7 @@ public interface OwnerService {
 
 	    ResponseDto<Object> getOwnerById(String ownerId);
 
-	    ResponseEntity<ResponseDto<List<ResponseDto>>> searchOwners(
+	    ResponseEntity<ResponseDto<Object>> searchOwners(
 	            OwnerSearchDto searchDto);
 
 		ResponseDto<Object> getAllOwners();

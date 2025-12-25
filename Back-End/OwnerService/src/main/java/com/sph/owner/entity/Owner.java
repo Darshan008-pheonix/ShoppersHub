@@ -1,9 +1,11 @@
 package com.sph.owner.entity;
 
+import com.sph.util.model.Address;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import util.model.Address;
+
 
 @Data
 @NoArgsConstructor
@@ -18,5 +20,5 @@ public class Owner {
 	private boolean isBlocked;
 	private String gstNumber;
 	private OwnerBankAccount ownerBankAccount;
-	//private Address address;
+	private Address address;
 }

@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sph.owner.dto.OwnerDto;
 import com.sph.owner.dto.OwnerSearchDto;
 import com.sph.owner.service.OwnerService;
+import com.sph.util.model.ResponseDto;
 
-import util.model.ResponseDto;
+
 
 @RestController
 @RequestMapping("/owner")
@@ -49,7 +50,7 @@ public class OwnerController {
 
 
 	    @PostMapping("/search")
-	    public ResponseEntity<ResponseDto<List<ResponseDto>>> searchOwner(
+	    public ResponseEntity<ResponseDto<Object>> searchOwner(
 	            @RequestBody OwnerSearchDto dto) {
 	        return ownerService.searchOwners(dto);
 	    }

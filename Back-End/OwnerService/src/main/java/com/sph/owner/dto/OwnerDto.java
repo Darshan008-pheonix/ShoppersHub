@@ -5,7 +5,7 @@ import com.sph.owner.entity.OwnerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import util.model.Address;
+import com.sph.util.model.Address;
 
 @Data
 @NoArgsConstructor

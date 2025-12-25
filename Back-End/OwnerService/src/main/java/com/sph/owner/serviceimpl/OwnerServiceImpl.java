@@ -18,8 +18,9 @@ import com.sph.owner.exception.OwnerNotFoundException;
 import com.sph.owner.repo.OwnerIdGeneratorRepo;
 import com.sph.owner.repo.OwnerRepo;
 import com.sph.owner.service.OwnerService;
-import util.model.ResponseDto;
-import util.model.utils;
+import com.sph.util.model.ResponseDto;
+import com.sph.util.service.CommonUtils;
+
 
 @Service
 public class OwnerServiceImpl implements OwnerService {
@@ -46,7 +47,7 @@ public class OwnerServiceImpl implements OwnerService {
 		Owner savedOwner = ownerRepo.save(owner);
 		ResponseDto responseDto = mapper.map(savedOwner, ResponseDto.class);
 
-		return utils.prepareResponse("Owner created successfully", responseDto, HttpStatus.CREATED.value());
+		return CommonUtils.prepareResponse("Owner created successfully", responseDto, HttpStatus.CREATED.value());
 	}
 
 
@@ -74,7 +75,7 @@ public class OwnerServiceImpl implements OwnerService {
 			responseList.add(mapper.map(owner, ResponseDto.class));
 		}
 
-		return utils.prepareResponse("Owners fetched successfully", responseList, HttpStatus.OK.value());
+		return CommonUtils.prepareResponse("Owners fetched successfully", responseList, HttpStatus.OK.value());
 	}
 
 
@@ -85,7 +86,7 @@ public class OwnerServiceImpl implements OwnerService {
 
 		ResponseDto dto = mapper.map(owner, ResponseDto.class);
 
-		return utils.prepareResponse("Owner fetched successfully", dto, HttpStatus.FOUND.value());
+		return CommonUtils.prepareResponse("Owner fetched successfully", dto, HttpStatus.FOUND.value());
 	}
 
 
@@ -104,7 +105,7 @@ public class OwnerServiceImpl implements OwnerService {
 		Owner updatedOwner = ownerRepo.save(owner);
 		ResponseDto responseDto = mapper.map(updatedOwner, ResponseDto.class);
 
-		return utils.prepareResponse("Owner updated successfully", responseDto, HttpStatus.OK.value());
+		return CommonUtils.prepareResponse("Owner updated successfully", responseDto, HttpStatus.OK.value());
 	}
 
 
@@ -115,17 +116,17 @@ public class OwnerServiceImpl implements OwnerService {
 
 		ownerRepo.delete(owner);
 
-		return utils.prepareResponse("Owner deleted successfully", null, HttpStatus.OK.value());
+		return CommonUtils.prepareResponse("Owner deleted successfully", null, HttpStatus.OK.value());
 	}
 
 
 	@Override
-	public ResponseEntity<ResponseDto<List<ResponseDto>>> searchOwners(
+	public ResponseEntity<ResponseDto<Object>> searchOwners(
 	        OwnerSearchDto searchDto) {
 
 	    if (searchDto == null) {
 	        return ResponseEntity.badRequest().body(
-	        		utils.prepareResponse(
+	        		CommonUtils.prepareResponse(
 	                        "Search criteria must not be null",
 	                        null,
 	                        HttpStatus.BAD_REQUEST.value()
@@ -145,7 +146,7 @@ public class OwnerServiceImpl implements OwnerService {
 	            .toList();
 
 	    return ResponseEntity.ok(
-	    		utils.prepareResponse(
+	    		CommonUtils.prepareResponse(
 	                    "Owners fetched successfully",
 	                    result,
 	                    HttpStatus.OK.value()
