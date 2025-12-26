@@ -8,6 +8,7 @@ import org.jspecify.annotations.Nullable;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +79,7 @@ public class ProductServiceImpln implements IProductService {
 
 	    obj.setStatus(ProductStatus.ACTIVE);
 	    obj.setCreatedAt(LocalDateTime.now());
-		return CommonUtils.prepareResponse(null, obj, 0);
+		return CommonUtils.prepareResponse("Product Had Added ", obj, HttpStatus.OK.value());
 	}
 	
 	
