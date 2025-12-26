@@ -9,4 +9,7 @@ public class InventoryDTO {
 
     @PositiveOrZero
     private int totalStock;
+    
+    @PositiveOrZero
+    private int reservedStock;
 }

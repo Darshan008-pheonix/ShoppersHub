@@ -67,6 +67,11 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+    <groupId>org.modelmapper</groupId>
+    <artifactId>modelmapper</artifactId>
+    <version>3.1.1</version>
+</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator-test</artifactId>
 			<scope>test</scope>
@@ -75,6 +80,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sph</groupId>
+			<artifactId>ShoppersHubUtilities</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
