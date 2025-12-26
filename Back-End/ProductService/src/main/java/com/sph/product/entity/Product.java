@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Product {
 
-	private String pid; //productId shpown001p001
+	private String pid; //sphp001
 	 private String id;
 
 	    private String ownerId;

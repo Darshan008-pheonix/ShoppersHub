@@ -16,4 +16,7 @@ public class PricingDTO {
 
     @PositiveOrZero
     private double discount;
+
+    @PositiveOrZero
+    private double finalPrice;
 }
