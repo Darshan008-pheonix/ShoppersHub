@@ -1,1 +1,147 @@
 /.metadata/
+##############################
+# OS
+##############################
+.DS_Store
+Thumbs.db
+desktop.ini
+
+##############################
+# Logs
+##############################
+*.log
+logs/
+*.out
+
+##############################
+# Java / JVM
+##############################
+*.class
+hs_err_pid*
+replay_pid*
+
+##############################
+# Maven
+##############################
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+dependency-reduced-pom.xml
+
+##############################
+# Gradle (if any service uses it)
+##############################
+.gradle/
+build/
+
+
+
+##############################
+# Environment / Secrets
+##############################
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+*.keystore
+
+##############################
+# IDE - Eclipse / STS
+##############################
+.project
+.classpath
+.settings/
+.factorypath
+.springBeans
+.sts4-cache/
+
+##############################
+# IDE - IntelliJ IDEA
+##############################
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+##############################
+# IDE - VS Code
+##############################
+.vscode/
+
+##############################
+# SonarQube / SonarLint
+##############################
+.sonar/
+.scannerwork/
+.sonarlint/
+sonar-project.properties.local
+
+##############################
+# SonarQube Server (LOCAL ONLY)
+##############################
+sonarqube/
+**/sonarqube/
+sonar-scanner/
+
+##############################
+# Docker
+##############################
+*.tar
+docker-compose.override.yml
+.env.docker
+
+
+
+##############################
+# Jenkins
+##############################
+jenkins_home/
+jenkins-data/
+
+##############################
+# Database
+##############################
+*.db
+*.sqlite
+*.h2.db
+*.mv.db
+
+##############################
+# Node (if frontend present)
+##############################
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+##############################
+# Test Reports
+##############################
+surefire-reports/
+failsafe-reports/
+test-output/
+
+##############################
+# Build Tools
+##############################
+bin/
+tmp/
+
+##############################
+# OS / Editor Swap Files
+##############################
+*.swp
+*.swo
+*~
+
+##############################
+# Backup Files
+##############################
+*.bak
+*.tmp
+
+##############################
+
