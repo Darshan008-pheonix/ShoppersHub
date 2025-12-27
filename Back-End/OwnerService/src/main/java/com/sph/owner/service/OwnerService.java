@@ -20,7 +20,7 @@ public interface OwnerService {
 
 	    ResponseDto<Object> getOwnerById(String ownerId);
 
-	    ResponseEntity<ResponseDto<Object>> searchOwners(
+	    ResponseEntity<ResponseDto<List<ResponseDto>>> searchOwners(
 	            OwnerSearchDto searchDto);
 
 		ResponseDto<Object> getAllOwners();

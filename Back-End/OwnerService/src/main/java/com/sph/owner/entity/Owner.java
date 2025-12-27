@@ -1,9 +1,7 @@
 package com.sph.owner.entity;
 
-<<<<<<< HEAD
 import com.sph.util.model.Address;
 
-=======
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -19,7 +17,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
->>>>>>> fe5252ba6da928dd75093e24910aee8739880f82
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

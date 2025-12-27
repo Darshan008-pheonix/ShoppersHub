@@ -121,7 +121,7 @@ public class OwnerServiceImpl implements OwnerService {
 
 
 	@Override
-	public ResponseEntity<ResponseDto<Object>> searchOwners(
+	public ResponseEntity searchOwners(
 	        OwnerSearchDto searchDto) {
 
 	    if (searchDto == null) {
