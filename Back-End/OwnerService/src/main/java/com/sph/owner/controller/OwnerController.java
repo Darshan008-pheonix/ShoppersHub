@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sph.owner.dto.OwnerDto;
 import com.sph.owner.dto.OwnerSearchDto;
 import com.sph.owner.service.OwnerService;
+import com.sph.util.dto.ProductDTO;
 import com.sph.util.dto.ResponseDto;
 
 import jakarta.validation.Valid;
@@ -51,4 +52,10 @@ public class OwnerController {
 	        return ownerService.searchOwners(dto);
 	    }
 
+	    
+	    @PostMapping(value ="/addProduct")
+		ResponseDto<Object> addProductByOwner( @RequestBody ProductDTO productDTO){
+			return  ownerService.addProductByOwner(productDTO);
+	    	
+	    }
 }

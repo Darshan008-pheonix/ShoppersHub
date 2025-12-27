@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -15,12 +14,11 @@ import lombok.NoArgsConstructor;
 
 
 @Document
-@CompoundIndexes({
+
     @CompoundIndex(name = "seller_category_idx", 
-                   def = "{'sellerId': 1, 'categoryId': 1}"),
+                   def = "{'sellerId': 1, 'categoryId': 1}")
     @CompoundIndex(name = "status_expiry_idx",
                    def = "{'status': 1, 'expiryDate': 1}")
-})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.jspecify.annotations.Nullable;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
@@ -31,15 +30,11 @@ public class ProductServiceImpln implements IProductService {
 	
 	 private final ProductDao productDao;
 	    private final CounterService counterService;
-	    private final ModelMapper mapper;
-
 	    public ProductServiceImpln(
 	            ProductDao productDao,
-	            CounterService counterService,
-	            ModelMapper mapper) {
+	            CounterService counterService) {
 	        this.productDao = productDao;
 	        this.counterService = counterService;
-	        this.mapper = mapper;
 	    }
 	
 	String generateProductId() {
@@ -79,7 +74,7 @@ public class ProductServiceImpln implements IProductService {
 
 	    obj.setStatus(ProductStatus.ACTIVE);
 	    obj.setCreatedAt(LocalDateTime.now());
-		return CommonUtils.prepareResponse("Product Had Added ", obj, HttpStatus.OK.value());
+		return CommonUtils.prepareResponse("Product Had Added ", productDao.insertProduct(obj), HttpStatus.OK.value());
 	}
 	
 	

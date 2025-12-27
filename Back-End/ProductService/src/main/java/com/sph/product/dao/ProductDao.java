@@ -28,8 +28,7 @@ public class ProductDao {
     
 	
 	public Product insertProduct(Product p) {
-		Product obj = mongoTemplate.insert(p);
-		return obj;
+		return mongoTemplate.insert(p);
 	}
 	
 	

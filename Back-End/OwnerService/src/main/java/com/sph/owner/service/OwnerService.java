@@ -3,9 +3,11 @@ package com.sph.owner.service;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.sph.owner.dto.OwnerDto;
 import com.sph.owner.dto.OwnerSearchDto;
+import com.sph.util.dto.ProductDTO;
 import com.sph.util.dto.ResponseDto;
 
 
@@ -24,5 +26,8 @@ public interface OwnerService {
 	            OwnerSearchDto searchDto);
 
 		ResponseDto<Object> getAllOwners();
+		
+		
+		ResponseDto<Object> addProductByOwner( ProductDTO productDTO);
 
 }

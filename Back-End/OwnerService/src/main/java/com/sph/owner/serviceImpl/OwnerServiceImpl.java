@@ -18,6 +18,8 @@ import com.sph.owner.exception.OwnerNotFoundException;
 import com.sph.owner.repo.OwnerIdGeneratorRepo;
 import com.sph.owner.repo.OwnerRepo;
 import com.sph.owner.service.OwnerService;
+import com.sph.owner.service.ProductClient;
+import com.sph.util.dto.ProductDTO;
 import com.sph.util.dto.ResponseDto;
 import com.sph.util.service.CommonUtils;
 
@@ -33,6 +35,11 @@ public class OwnerServiceImpl implements OwnerService {
 
 	@Autowired
 	private ModelMapper mapper;
+	
+	@Autowired
+	private ProductClient client;
+	
+	
 
 	@Override
 	public ResponseDto<Object> addOwner(OwnerDto dto) {
@@ -162,6 +169,13 @@ public class OwnerServiceImpl implements OwnerService {
 	private boolean matches(Object search, Object actual) {
 	    return ObjectUtils.isEmpty(search)
 	            || (actual != null && actual.equals(search));
+	}
+
+
+	@Override
+	public ResponseDto<Object> addProductByOwner(ProductDTO productDTO) {
+		
+		return client.addProduct(productDTO);
 	}
 	
 	
