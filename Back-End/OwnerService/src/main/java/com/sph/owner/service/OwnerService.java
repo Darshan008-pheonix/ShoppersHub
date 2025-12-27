@@ -24,5 +24,4 @@ public interface OwnerService {
 
 		ResponseDto<Object> getAllOwners();
 
-	//	ResponseDto<Object> getOwnerByEmail(String email);
 }
