@@ -19,6 +19,11 @@ import com.sph.owner.service.OwnerService;
 import com.sph.util.dto.ResponseDto;
 
 
+<<<<<<< HEAD
+=======
+import jakarta.validation.Valid;
+import util.model.ResponseDto;
+>>>>>>> fe5252ba6da928dd75093e24910aee8739880f82
 
 @RestController
 @RequestMapping("/owner")
@@ -26,20 +31,17 @@ public class OwnerController {
 	
 	@Autowired
 	OwnerService ownerService;
-	
-	
-	
-	
-		@PostMapping
+
+		@PostMapping("/add")
 	    public ResponseDto<Object> addOwner(
-	            @RequestBody OwnerDto dto) {
+	            @Valid @RequestBody OwnerDto dto) {
 	        return ownerService.addOwner(dto);
 	    }
 
 	    @PutMapping("/{id}")
 	    public ResponseDto<Object> updateOwner(
 	            @PathVariable String id,
-	            @RequestBody OwnerDto dto) {
+	            @Valid @RequestBody OwnerDto dto) {
 	        return ownerService.updateOwner(id, dto);
 	    }
 
@@ -50,8 +52,13 @@ public class OwnerController {
 
 
 	    @PostMapping("/search")
+<<<<<<< HEAD
 	    public ResponseEntity<ResponseDto<Object>> searchOwner(
 	            @RequestBody OwnerSearchDto dto) {
+=======
+	    public ResponseEntity<ResponseDto<List<ResponseDto>>> searchOwner(
+	            @Valid @RequestBody OwnerSearchDto dto) {
+>>>>>>> fe5252ba6da928dd75093e24910aee8739880f82
 	        return ownerService.searchOwners(dto);
 	    }
 

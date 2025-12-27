@@ -1,4 +1,4 @@
-package com.sph.owner.serviceimpl;
+package com.sph.owner.serviceImpl;
 
 
 import java.util.ArrayList;
@@ -31,8 +31,8 @@ public class OwnerServiceImpl implements OwnerService {
 	@Autowired
 	private OwnerIdGeneratorRepo idGeneratorRepo;
 
-	private static final ModelMapper mapper = new ModelMapper();
-
+	@Autowired
+	private ModelMapper mapper;
 
 	@Override
 	public ResponseDto<Object> addOwner(OwnerDto dto) {
@@ -163,6 +163,8 @@ public class OwnerServiceImpl implements OwnerService {
 	    return ObjectUtils.isEmpty(search)
 	            || (actual != null && actual.equals(search));
 	}
+	
+	
 
 	
 }
