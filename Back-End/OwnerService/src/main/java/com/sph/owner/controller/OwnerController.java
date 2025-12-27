@@ -16,9 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sph.owner.dto.OwnerDto;
 import com.sph.owner.dto.OwnerSearchDto;
 import com.sph.owner.service.OwnerService;
+import com.sph.util.dto.ResponseDto;
 
+
+<<<<<<< HEAD
+=======
 import jakarta.validation.Valid;
 import util.model.ResponseDto;
+>>>>>>> fe5252ba6da928dd75093e24910aee8739880f82
 
 @RestController
 @RequestMapping("/owner")
@@ -47,8 +52,13 @@ public class OwnerController {
 
 
 	    @PostMapping("/search")
+<<<<<<< HEAD
+	    public ResponseEntity<ResponseDto<Object>> searchOwner(
+	            @RequestBody OwnerSearchDto dto) {
+=======
 	    public ResponseEntity<ResponseDto<List<ResponseDto>>> searchOwner(
 	            @Valid @RequestBody OwnerSearchDto dto) {
+>>>>>>> fe5252ba6da928dd75093e24910aee8739880f82
 	        return ownerService.searchOwners(dto);
 	    }
 
