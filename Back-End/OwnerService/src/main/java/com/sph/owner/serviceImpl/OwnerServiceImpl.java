@@ -125,6 +125,12 @@ public class OwnerServiceImpl implements OwnerService {
 
 		return CommonUtils.prepareResponse("Owner deleted successfully", null, HttpStatus.OK.value());
 	}
+	
+	
+	public ResponseDto<Object> findOwnerById(String ownerId){
+		Owner owner = ownerRepo.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException("Owner not found"));
+		return CommonUtils.prepareResponse("Owner Found",owner, HttpStatus.FOUND.value());
+	}
 
 
 	@Override
