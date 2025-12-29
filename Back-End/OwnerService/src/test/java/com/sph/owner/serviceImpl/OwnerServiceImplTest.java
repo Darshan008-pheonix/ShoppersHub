@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -19,9 +20,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.util.IdGenerator;
 
+import com.sph.owner.entity.Owner;
 import com.sph.owner.entity.OwnerIdGenerator;
+import com.sph.owner.exception.OwnerNotFoundException;
 import com.sph.owner.repo.OwnerIdGeneratorRepo;
+import com.sph.owner.repo.OwnerRepo;
+import com.sph.util.dto.ResponseDto;
 
 @ExtendWith(MockitoExtension.class)
 class OwnerServiceImplTest {
@@ -39,6 +45,9 @@ class OwnerServiceImplTest {
 	@Mock
 	OwnerIdGeneratorRepo idGeneratorRepo;
 	
+	@Mock
+	OwnerRepo ownerRepo;
+	
 	@InjectMocks
 	OwnerServiceImpl impl;
 	
@@ -47,6 +56,8 @@ class OwnerServiceImplTest {
 	
 	OwnerIdGenerator ownerId2;
 	
+	Owner owner;
+	
 	@BeforeEach
 	void beforeEach() {
 		ownerId1=new OwnerIdGenerator();
@@ -54,6 +65,11 @@ class OwnerServiceImplTest {
 		ownerId2=new OwnerIdGenerator();
 		ownerId2.setId(122);
 		
+		
+		owner=new Owner();
+		owner.setEmail("abc@gmail.com");
+		owner.setOwnerName("abc");
+		owner.setOwnerId("OWN001");
 	}
 	
 	
@@ -74,6 +90,24 @@ class OwnerServiceImplTest {
 //		String ans=impl.generateOwnerId();
 //		assertEquals("OWN122",ans);
 //	}
+	
+	
+	@Test
+	void test3() {
+		Mockito.when(ownerRepo.findById("OWN001")).thenReturn(Optional.of(owner));
+		ResponseDto<Object> response = impl.findOwnerById("OWN001");
+		
+		assertEquals("Owner Found",response.getMessage());
+		assertEquals("abc@gmail.com",((Owner)(response.getData())).getEmail());
+		assertEquals(302,response.getStatus());
+	}
+	
+	@Test
+	void test4() {
+		Mockito.when(ownerRepo.findById("OWN7656")).thenReturn(Optional.empty());
+		
+		assertThrows(OwnerNotFoundException.class, ()->impl.findOwnerById("OWN7656"));
+	}
 	
 	
 	
