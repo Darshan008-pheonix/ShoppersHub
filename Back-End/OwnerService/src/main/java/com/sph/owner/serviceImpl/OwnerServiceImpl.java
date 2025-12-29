@@ -64,11 +64,11 @@ public class OwnerServiceImpl implements OwnerService {
 		int id = idGen.getId();
 
 		if (id < 10) {
-			return "own001" + id;
+			return "OWN00" + id;
 		} else if (id < 100) {
-			return "own01" + id;
+			return "OWN0" + id;
 		}
-		return "own1" + id;
+		return "OWN" + id;
 	}
 
 
@@ -176,6 +176,7 @@ public class OwnerServiceImpl implements OwnerService {
 	public ResponseDto<Object> addProductByOwner(ProductDTO productDTO) {
 		
 		return client.addProduct(productDTO);
+		
 	}
 	
 	

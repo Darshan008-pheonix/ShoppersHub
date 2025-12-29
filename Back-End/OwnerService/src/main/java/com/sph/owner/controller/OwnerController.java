@@ -58,4 +58,9 @@ public class OwnerController {
 			return  ownerService.addProductByOwner(productDTO);
 	    	
 	    }
+	    
+	    @GetMapping("/info")
+	    String getInfo() {
+	    	return "In Onwer Info Method";
+	    }
 }
