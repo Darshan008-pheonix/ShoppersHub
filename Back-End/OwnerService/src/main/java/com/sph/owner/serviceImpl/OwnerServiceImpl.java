@@ -52,9 +52,9 @@ public class OwnerServiceImpl implements OwnerService {
 		owner.setBlocked(false);
 
 		Owner savedOwner = ownerRepo.save(owner);
-		ResponseDto responseDto = mapper.map(savedOwner, ResponseDto.class);
+		OwnerDto responseData = mapper.map(savedOwner, OwnerDto.class);
 
-		return CommonUtils.prepareResponse("Owner created successfully", responseDto, HttpStatus.CREATED.value());
+		return CommonUtils.prepareResponse("Owner created successfully", responseData, HttpStatus.CREATED.value());
 	}
 
 
@@ -134,20 +134,19 @@ public class OwnerServiceImpl implements OwnerService {
 
 
 	@Override
-	public ResponseEntity searchOwners(
+	public ResponseDto<Object> searchOwners(
 	        OwnerSearchDto searchDto) {
 
 	    if (searchDto == null) {
-	        return ResponseEntity.badRequest().body(
+	        return
 	        		CommonUtils.prepareResponse(
 	                        "Search criteria must not be null",
 	                        null,
 	                        HttpStatus.BAD_REQUEST.value()
-	                )
-	        );
+	                );
 	    }
 
-	    List<ResponseDto> result = ownerRepo.findAll()
+	    List<Owner> result = ownerRepo.findAll()
 	            .stream()
 	            .filter(owner -> matches(searchDto.getOwnerId(), owner.getOwnerId()))
 	            .filter(owner -> matches(searchDto.getOwnerName(), owner.getOwnerName()))
@@ -155,16 +154,15 @@ public class OwnerServiceImpl implements OwnerService {
 	            .filter(owner -> matches(searchDto.getEmail(), owner.getEmail()))
 	            .filter(owner -> matches(searchDto.getPhoneNumber(), owner.getPhoneNumber()))
 	            .filter(owner -> matches(searchDto.getGstNumber(), owner.getGstNumber()))
-	            .map(owner -> mapper.map(owner, ResponseDto.class))
 	            .toList();
+	    System.out.println(result);
 
-	    return ResponseEntity.ok(
+	    return
 	    		CommonUtils.prepareResponse(
 	                    "Owners fetched successfully",
 	                    result,
 	                    HttpStatus.OK.value()
-	            )
-	    );
+	            );
 	}
 
 	private boolean matches(String search, String actual) {
