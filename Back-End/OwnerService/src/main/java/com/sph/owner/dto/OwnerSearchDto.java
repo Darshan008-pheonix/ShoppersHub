@@ -28,7 +28,7 @@ public class OwnerSearchDto {
     private String email;
 
     @Pattern(
-        regexp = "^[0-9]{10}$",
+        regexp = "^[6-9]{1}[0-9]{9}$",
         message = "Phone number must be exactly 10 digits"
     )
     private String phoneNumber;

@@ -47,7 +47,7 @@ public class OwnerController {
 
 
 	    @PostMapping("/search")
-	    public ResponseEntity<ResponseDto<List<ResponseDto>>> searchOwner( @Valid @RequestBody OwnerSearchDto dto) {
+	    public ResponseDto<Object> searchOwner( @Valid @RequestBody OwnerSearchDto dto) {
 	    	
 	        return ownerService.searchOwners(dto);
 	    }

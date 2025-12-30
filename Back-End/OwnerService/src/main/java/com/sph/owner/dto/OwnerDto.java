@@ -21,6 +21,8 @@ import com.sph.util.model.Address;
 @AllArgsConstructor
 public class OwnerDto {
 
+	
+	private String ownerId;
 
     @NotBlank(message = "Owner name is required")
     @Size(min = 3, max = 100, message = "Owner name must be between 3 and 100 characters")
