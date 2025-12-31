@@ -17,6 +17,7 @@ import com.sph.owner.entity.OwnerStatus;
 import com.sph.owner.exception.OwnerNotFoundException;
 import com.sph.owner.repo.OwnerIdGeneratorRepo;
 import com.sph.owner.repo.OwnerRepo;
+import com.sph.owner.service.OwnerMapper;
 import com.sph.owner.service.OwnerService;
 import com.sph.owner.service.ProductClient;
 import com.sph.util.dto.ProductDTO;
@@ -39,20 +40,24 @@ public class OwnerServiceImpl implements OwnerService {
 	@Autowired
 	private ProductClient client;
 	
-	
+	@Autowired
+	OwnerMapper ownerMapper; 
 
 	@Override
 	public ResponseDto<Object> addOwner(OwnerDto dto) {
 
-		Owner owner = mapper.map(dto, Owner.class);
+		Owner owner = ownerMapper.toEntity(dto);
 
-		String ownerId = generateOwnerId();
-		owner.setOwnerId(ownerId);
-		owner.setStatus(OwnerStatus.ACTIVE);
-		owner.setBlocked(false);
+	    owner.setOwnerId(generateOwnerId());
+	    owner.setStatus(OwnerStatus.ACTIVE);
+	    owner.setBlocked(false);
 
-		Owner savedOwner = ownerRepo.save(owner);
-		OwnerDto responseData = mapper.map(savedOwner, OwnerDto.class);
+	    System.out.println(owner.getAddress());
+	    System.out.println(owner.getOwnerBankAccount());
+	    
+	    Owner savedOwner = ownerRepo.save(owner);
+
+	    OwnerDto responseData = ownerMapper.toDto(savedOwner);
 
 		return CommonUtils.prepareResponse("Owner created successfully", responseData, HttpStatus.CREATED.value());
 	}

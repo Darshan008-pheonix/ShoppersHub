@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.sph.util.dto.ProductDTO;
 import com.sph.util.dto.ResponseDto;
 
-@FeignClient(name = "ProductService")
+@FeignClient(name = "ProductService",fallbackFactory =  ProductClientFallbackFactory.class)
 public interface ProductClient {
 	
 	

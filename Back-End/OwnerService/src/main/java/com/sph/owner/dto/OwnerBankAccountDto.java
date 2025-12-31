@@ -2,6 +2,9 @@ package com.sph.owner.dto;
 
 import com.sph.owner.entity.OwnerStatus;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -15,6 +18,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OwnerBankAccountDto {
 
+
+    private Long accountNumber;
+	  
     @NotBlank(message = "Bank name is mandatory")
     @Size(max = 100, message = "Bank name must be less than 100 characters")
     private String bankName;
@@ -37,3 +43,4 @@ public class OwnerBankAccountDto {
     @NotNull(message = "Status is required")
     private OwnerStatus status;
 }
+
