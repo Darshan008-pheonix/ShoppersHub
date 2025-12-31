@@ -1,5 +1,7 @@
 package com.sph.owner.entity;
 
+
+
 import com.sph.util.model.Address;
 
 import jakarta.persistence.CascadeType;
@@ -72,12 +74,10 @@ public class Owner {
     private String gstNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bank_account_id", nullable = false)
-    @NotNull
+    @JoinColumn(name = "bank_account_id", nullable =true)
     private OwnerBankAccount ownerBankAccount;
 
     @Embedded
-    @NotNull
     private Address address;
 
 }

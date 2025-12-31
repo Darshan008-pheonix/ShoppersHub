@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sph.owner.dto.OwnerDto;
@@ -60,7 +61,7 @@ public class OwnerController {
 	    }
 	    
 	    @GetMapping("/info")
-	    String getInfo() {
+	    String getInfo(@RequestParam String msg) {
 	    	return "In Onwer Info Method";
 	    }
 }

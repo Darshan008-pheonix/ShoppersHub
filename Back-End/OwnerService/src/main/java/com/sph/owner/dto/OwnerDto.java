@@ -1,6 +1,8 @@
 package com.sph.owner.dto;
 
+
 import com.sph.owner.entity.OwnerStatus;
+import com.sph.util.model.Address;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,14 +16,12 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.sph.util.model.Address;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OwnerDto {
-
-	
 	private String ownerId;
 
     @NotBlank(message = "Owner name is required")
@@ -59,6 +59,8 @@ public class OwnerDto {
 
     @NotNull(message = "Bank account details are required")
     @Valid
-    private OwnerBankAccountDto ownerAccount;
+    private OwnerBankAccountDto ownerBankAccount;
+	
+	
 
 }
