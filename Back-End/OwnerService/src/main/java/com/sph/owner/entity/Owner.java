@@ -74,7 +74,7 @@ public class Owner {
     private String gstNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bank_account_id", nullable =true)
+    @JoinColumn(name = "bank_account_id", nullable =false)
     private OwnerBankAccount ownerBankAccount;
 
     @Embedded
