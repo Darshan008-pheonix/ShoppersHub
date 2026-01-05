@@ -3,6 +3,7 @@ package com.sph.book.entity;
 public enum BookingStatus {
 
 	ORDER_PLACED,
+	PAYMENT_FAILED,
     PAYMENT_IN_PROGRESS,
     PAYMENT_COMPLETED,
     SHIPPED,

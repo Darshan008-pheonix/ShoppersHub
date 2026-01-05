@@ -5,6 +5,10 @@ import java.time.Instant;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /*
  * bookid
  * uid
@@ -22,7 +26,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * 
  */
 
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Document
 public class Bookings{
 	
@@ -32,7 +38,7 @@ public class Bookings{
 	
     private String userId;
     private String productId;
-    private String sellerId;
+    private String ownerId;
 
     private BookingStatus bookingStatus;
     private PaymentStatus paymentStatus;

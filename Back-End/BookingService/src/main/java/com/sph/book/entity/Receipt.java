@@ -7,8 +7,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.sph.util.model.Address;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 @Document
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Receipt {
 	
 	@Id
