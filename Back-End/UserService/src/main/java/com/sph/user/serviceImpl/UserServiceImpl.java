@@ -1,29 +1,40 @@
 package com.sph.user.serviceImpl;
 
-import org.modelmapper.ModelMapper;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.sph.user.dto.UserDto;
+import com.sph.user.dto.UserRequestDto;
+import com.sph.user.dto.UserResponseDto;
+import com.sph.user.entity.AccountStatus;
 import com.sph.user.entity.IdGeneration;
 import com.sph.user.entity.User;
+import com.sph.user.exception.UserNotFoundException;
 import com.sph.user.repo.IdGenerationRepo;
 import com.sph.user.repo.UserRepo;
+import com.sph.user.service.UserMapper;
 import com.sph.user.service.UserService;
+import com.sph.util.dto.ResponseDto;
+import com.sph.util.service.CommonUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	UserRepo repo;
+	UserRepo userRepository;
 
 	@Autowired
 	IdGenerationRepo sequence;
+	
+	@Autowired
+	UserMapper userMapper;
 
 	private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-	private static ModelMapper mapper = new ModelMapper();
+	//private static ModelMapper mapper = new ModelMapper();
 
 	private String generateId() {
 		IdGeneration gen = new IdGeneration();
@@ -39,53 +50,50 @@ public class UserServiceImpl implements UserService {
 			return ("SPHU" + gen.getId());
 		}
 	}
+
+	@Override
+	public ResponseDto<Object> createUser(UserRequestDto userRequest) {
+		User user = userMapper.toEntity(userRequest);
+		
+		user.setUserId(generateId());
+		user.setStatus(AccountStatus.ACTIVE); 		    
+		user.setActive(true);
+		user.setPassword(encoder.encode(userRequest.getPassword()));
+		
+		User savedUser = userRepository.save(user);
+		UserResponseDto responseData = userMapper.toDto(savedUser);
+		return CommonUtils.prepareResponse("User created successfully", responseData, HttpStatus.CREATED.value());
+	}
+
+	@Override
+	public UserResponseDto getUserById(String id) {
+		return userMapper.toDto(userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found")));
+	}
+
+	@Override
+	public List<UserResponseDto> getAllUsers() {
+		return userMapper.toDtoList(userRepository.findAll());
+	}
+
+	@Override
+	public UserResponseDto updateUser(String id, UserRequestDto request) {
+		User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+
+		//user.getName(request.setName());
+
+		user.setEmail(request.getEmail());
+
+		return userMapper.toDto(user);
+	}
+
+	@Override
+	public ResponseDto<Object> deleteUser(String id) {
+		User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+
+		userRepository.delete(user);
+		return CommonUtils.prepareResponse("User deleted successfully", null, HttpStatus.OK.value());
+
+	}
 	
 	
-	@Override
-	public User createUser(UserDto dto) {
-
-		User user = mapper.map(dto, User.class);
-
-		String id = generateId();
-		user.setId(id);
-		user.setPasswordHash(encoder.encode(user.getPasswordHash()));
-
-		User saved = repo.save(user);
-		//UserDto data = mapper.map(saved, UserDto.class);
-		return saved;
-	}
-
-	@Override
-	public User getUser(String id) {
-		return repo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-	}
-
-	@Override
-	public User getUserByEmail(String email) {
-		return repo.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-	}
-
-	@Override
-	public void updateUser(String id, UserDto dto) {
-//	 	User user = repo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-//        user.setName(dto);
-//        user.setPhone(request.phone);
-//        user.setUpdatedAt(LocalDateTime.now());
-//        repo.save(user);
-	}
-
-	@Override
-	public void blockUser(String id) {
-		User user = getUser(id);
-		user.setStatus("BLOCKED");
-		repo.save(user);
-	}
-
-	@Override
-	public void activateUser(String id) {
-		User user = getUser(id);
-		user.setStatus("ACTIVE");
-		repo.save(user);
-	}
-
 }

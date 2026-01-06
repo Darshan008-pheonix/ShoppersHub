@@ -1,6 +1,10 @@
 package com.sph.user.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sph.user.dto.UserDto;
-import com.sph.user.entity.User;
+import com.sph.user.dto.UserRequestDto;
+import com.sph.user.dto.UserResponseDto;
 import com.sph.user.service.UserService;
+import com.sph.util.dto.ResponseDto;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
@@ -20,28 +27,29 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	// Create User
-    @PostMapping
-    public User createUser(@RequestBody UserDto dto) {
-        return userService.createUser(dto);
-    }
+	@PostMapping
+	public ResponseDto<Object> createUser(@Valid @RequestBody UserRequestDto request) {
+		return userService.createUser(request);
+	}
 
-    // Get User
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable String id) {
-        return userService.getUser(id);
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<UserResponseDto> getUser(@PathVariable String id) {
+		return ResponseEntity.ok(userService.getUserById(id));
+	}
 
-    // Get User by Email (Auth Service)
-    @GetMapping("/email/{email}")
-    public User getByEmail(@PathVariable String email) {
-        return userService.getUserByEmail(email);
-    }
+	@GetMapping
+	public ResponseEntity<List<UserResponseDto>> getAllUsers() {
+		return ResponseEntity.ok(userService.getAllUsers());
+	}
 
-    // Update User
-//    @PutMapping("/{id}")
-//    public void updateUser(@PathVariable String id, @RequestBody UserDto dto) {
-//        userService.updateUser(id, dto);
-//    }
+	@PutMapping("/{id}")
+	public ResponseEntity<UserResponseDto> updateUser(@PathVariable String id,@Valid @RequestBody UserRequestDto request) {
+		return ResponseEntity.ok(userService.updateUser(id, request));
+	}
 
+	@DeleteMapping("/{id}")
+	public ResponseDto<Object> deleteUser(@PathVariable String id) {
+		return userService.deleteUser(id);
+	}
+	
 }
