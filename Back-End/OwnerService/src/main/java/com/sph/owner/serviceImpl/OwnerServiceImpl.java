@@ -20,6 +20,7 @@ import com.sph.owner.repo.OwnerRepo;
 import com.sph.owner.service.OwnerMapper;
 import com.sph.owner.service.OwnerService;
 import com.sph.owner.service.ProductClient;
+import com.sph.util.dto.OwnerOnbaordingDto;
 import com.sph.util.dto.ProductDTO;
 import com.sph.util.dto.ResponseDto;
 import com.sph.util.service.CommonUtils;
@@ -42,6 +43,9 @@ public class OwnerServiceImpl implements OwnerService {
 	
 	@Autowired
 	OwnerMapper ownerMapper; 
+	
+	@Autowired
+	OwnerEventProducer eventProducer;
 
 	@Override
 	public ResponseDto<Object> addOwner(OwnerDto dto) {
@@ -56,7 +60,13 @@ public class OwnerServiceImpl implements OwnerService {
 	    System.out.println(owner.getOwnerBankAccount());
 	    
 	    Owner savedOwner = ownerRepo.save(owner);
-
+	    
+	    OwnerOnbaordingDto event=new OwnerOnbaordingDto();
+	    
+	    event.setEmail(savedOwner.getEmail());
+	    event.setName(savedOwner.getOwnerName());
+	    event.setOwnerId(savedOwner.getOwnerId());
+	    eventProducer.sendOnboardingMessage(event);
 	    OwnerDto responseData = ownerMapper.toDto(savedOwner);
 
 		return CommonUtils.prepareResponse("Owner created successfully", responseData, HttpStatus.CREATED.value());
