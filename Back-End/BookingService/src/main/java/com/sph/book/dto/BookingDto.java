@@ -15,5 +15,5 @@ public class BookingDto {
     private String email;
     private String phoneNumber;
     private String productId;
-    private String sellerId;
+    private String ownerId;
 }
