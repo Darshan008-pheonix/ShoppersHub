@@ -1,15 +1,21 @@
 package com.sph.user.service;
 
-import com.sph.user.dto.UserDto;
-import com.sph.user.entity.User;
+import java.util.List;
+
+import com.sph.user.dto.UserRequestDto;
+import com.sph.user.dto.UserResponseDto;
+import com.sph.util.dto.ResponseDto;
 
 public interface UserService {
-	
-	User createUser(UserDto dto);
-	User getUser(String id);
-	User getUserByEmail(String email);
-	void updateUser(String id, UserDto request);
-	void blockUser(String id);
-	void activateUser(String id);
+
+	ResponseDto<Object> createUser(UserRequestDto request);
+
+	UserResponseDto getUserById(String id);
+
+	List<UserResponseDto> getAllUsers();
+
+	UserResponseDto updateUser(String id, UserRequestDto request);
+
+	ResponseDto<Object> deleteUser(String id);
 
 }
