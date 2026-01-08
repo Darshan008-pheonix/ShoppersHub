@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 public class OwnerBankAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountNumber;
 
     @NotBlank(message = "Bank name is mandatory")
