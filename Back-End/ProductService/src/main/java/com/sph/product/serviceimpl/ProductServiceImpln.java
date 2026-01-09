@@ -66,7 +66,7 @@ public class ProductServiceImpln implements IProductService {
 	@Override
 	public ResponseDto<Object> validateProduct(String pid, int qnt) {
 		
-		System.out.println("I am here..!!");
+		
 		
 		Product prod = productDao.getProduct(pid);
 		if(!ObjectUtils.isEmpty(prod)) {
@@ -75,6 +75,16 @@ public class ProductServiceImpln implements IProductService {
 			return CommonUtils.prepareResponse("Product  Available ",prodMapper.toDto(prod), HttpStatus.OK.value());
 		}
 		}
+		return null;
+	}
+
+	@Override
+	public ResponseDto<Object> reserveProduct(String pid, int qnt) {
+		/*
+		 * Check and again validate qnt vs inventory stocks
+		 */
+		productDao.reservePro(pid,qnt);
+		
 		return null;
 	}
 	
