@@ -56,32 +56,6 @@ public class ProductServiceImpln implements IProductService {
 	public ResponseDto<Object> addProduct(ProductDTO prod) {
 		Product obj = prodMapper.toEntity(prod);
 		obj.setPid(generateProductId());
-		
-//		System.out.println(prod.getPricing());
-//		
-		
-//	    obj.setOwnerId(prod.getOwnerId());
-//	    obj.setCategoryId(prod.getCategoryId());
-//	    obj.setName(prod.getName());
-//	    obj.setBrand(prod.getBrand());
-//	    obj.setManufactureDate(prod.getManufactureDate());
-//	    obj.setExpiryDate(prod.getExpiryDate());
-//	    obj.setDescription(prod.getDescription());
-//	    obj.setPricing(Pricing.builder().currency(prod.getPricing().getCurrency()).discount(prod.getPricing().getDiscount()).finalPrice(prod.getPricing().getFinalPrice()).price(prod.getPricing().getPrice()).build());
-//	    obj.setInventory(Inventory.builder().reservedStock(prod.getInventory().getReservedStock()).totalStock(prod.getInventory().getTotalStock()).build());
-//	    List<Variant> variants = prod.getVariants().stream().map(ele->Variant.builder()
-//	    		.variantId(ele.getVariantId())
-//	    		.sku(ele.getSku())
-//	    		.price(ele.getPrice())
-//	    		.stock(ele.getStock())
-//	    		.status(VariantStatus.ACTIVE)
-//	    		.attributes(ele.getAttributes())
-//	    		.build())
-//	    		.toList();
-//	    obj.setVariants(variants);
-//	    obj.setAttributes(prod.getAttributes());
-//	    obj.setImages(prod.getImages());
-//
  	    obj.setStatus(ProductStatus.ACTIVE);
         obj.setCreatedAt(LocalDateTime.now());
 		ProductDTO productdto =prodMapper.toDto(productDao.insertProduct(obj));
