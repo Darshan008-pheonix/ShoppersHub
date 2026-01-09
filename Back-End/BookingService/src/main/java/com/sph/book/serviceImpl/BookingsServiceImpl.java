@@ -8,8 +8,11 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import com.sph.book.config.MongoConfig;
 import com.sph.book.controller.BookingsController;
 import com.sph.book.dto.CheckoutRequestDto;
+import com.sph.book.dto.OrderRequestDto;
 import com.sph.book.entity.BookingStatus;
 import com.sph.book.entity.Bookings;
 
@@ -32,6 +35,9 @@ public class BookingsServiceImpl implements BookingsService{
 
 	@Autowired
 	private ObjectMapper objectMapper;
+	
+	
+
  
 	
 	
@@ -61,5 +67,26 @@ public class BookingsServiceImpl implements BookingsService{
 		return CommonUtils.prepareResponse("Product Is Available ", checkOutresponseDto,HttpStatus.OK.value() );
 		}
 	}
+
+
+
+
+
+
+
+	@Override
+	public ResponseDto<?> orderProduct(OrderRequestDto request) {
+		ResponseDto<Object> response = productClient.validateProduct(request.productId(),request.quantity());
+		
+		productClient.reserveProduct(request.productId(), request.quantity());
+		/*
+		 * Check wheater the reserveProduct is returing success message go and create booking Object
+		 */
+		
+		
+		
+		return null;
+	}
+	
 
 }

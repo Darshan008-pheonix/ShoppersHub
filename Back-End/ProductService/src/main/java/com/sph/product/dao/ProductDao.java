@@ -37,6 +37,17 @@ public class ProductDao {
 		query.addCriteria(Criteria.where("pid").is(pid));
 		return mongoTemplate.findOne(query, Product.class);
 	}
+
+
+	public void reservePro(String pid, int qnt) {
+		// TODO Auto-generated method stub
+		
+		/*
+		 * Write a query to update the product
+		 * 
+		 */
+		
+	}
 	
 	
 	

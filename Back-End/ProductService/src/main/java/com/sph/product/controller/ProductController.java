@@ -4,6 +4,7 @@ package com.sph.product.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +36,12 @@ public class ProductController {
 	@GetMapping("/validateProduct")
 	ResponseDto<Object> validateProduct(@RequestParam String pid,@RequestParam int qnt ){
 		return service.validateProduct(pid,qnt);
+	}
+	
+	
+	@PatchMapping("/reserveProduct")
+	ResponseDto<Object> reserveProduct(@RequestParam String pid,@RequestParam int qnt ){
+		return service.reserveProduct(pid,qnt);
 	}
 
 	
