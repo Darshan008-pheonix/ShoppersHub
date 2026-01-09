@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +30,12 @@ public class ProductDao {
 	
 	public Product insertProduct(Product p) {
 		return mongoTemplate.insert(p);
+	}
+	
+	public Product getProduct(String pid) {
+		Query query=new Query();
+		query.addCriteria(Criteria.where("pid").is(pid));
+		return mongoTemplate.findOne(query, Product.class);
 	}
 	
 	

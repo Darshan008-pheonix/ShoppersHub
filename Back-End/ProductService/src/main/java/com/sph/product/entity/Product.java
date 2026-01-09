@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +25,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Product {
 
-	private String pid; //sphp001
-	 private String id;
+	 @Id
+	 private String pid; //sphp001
 
 	    private String ownerId;
 

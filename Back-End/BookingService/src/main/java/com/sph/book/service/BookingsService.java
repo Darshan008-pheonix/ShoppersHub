@@ -1,11 +1,13 @@
 package com.sph.book.service;
 
+import com.sph.book.dto.CheckoutRequestDto;
 import com.sph.book.entity.Bookings;
+import com.sph.util.dto.ResponseDto;
 
 public interface BookingsService {
-		Bookings checkout(String pId,String uID, int quat);
-		String orderNow(Bookings booking);
-		Bookings payNow(String bookingId, String paymentMode);
+
+	ResponseDto<?> checkout(CheckoutRequestDto request);
+		
 		
 		
 }
