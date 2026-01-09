@@ -7,4 +7,6 @@ public interface IProductService {
 
 	
 	ResponseDto<Object> addProduct(ProductDTO productDTO);
+
+	ResponseDto<Object> validateProduct(String pid, int qnt);
 }

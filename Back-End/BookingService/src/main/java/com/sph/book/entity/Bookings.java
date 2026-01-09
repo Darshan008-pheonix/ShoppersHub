@@ -40,6 +40,8 @@ public class Bookings{
     private String productId;
     private String ownerId;
 
+    private int qty;
+    private double totalcost;
     private BookingStatus bookingStatus;
     private PaymentStatus paymentStatus;
 

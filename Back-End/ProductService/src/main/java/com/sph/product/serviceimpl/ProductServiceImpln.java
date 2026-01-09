@@ -6,10 +6,12 @@ import java.util.List;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.auditing.CurrentDateTimeProvider;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.sph.product.config.MongoConfig;
 import com.sph.product.dao.CounterService;
@@ -21,6 +23,8 @@ import com.sph.product.entity.ProductStatus;
 import com.sph.product.entity.Variant;
 import com.sph.product.entity.VariantStatus;
 import com.sph.product.service.IProductService;
+import com.sph.product.service.ProductMapper;
+import com.sph.util.dto.CheckoutResponseDto;
 import com.sph.util.dto.ProductDTO;
 import com.sph.util.dto.ResponseDto;
 import com.sph.util.service.CommonUtils;
@@ -29,6 +33,11 @@ import com.sph.util.service.CommonUtils;
 public class ProductServiceImpln implements IProductService {
 	
 	 private final ProductDao productDao;
+	 
+	 @Autowired
+	 ProductMapper prodMapper;
+	 
+	 
 	    private final CounterService counterService;
 	    public ProductServiceImpln(
 	            ProductDao productDao,
@@ -45,36 +54,28 @@ public class ProductServiceImpln implements IProductService {
 
 	@Override
 	public ResponseDto<Object> addProduct(ProductDTO prod) {
-		Product obj = new Product();
-		
-		System.out.println(prod.getPricing());
-		
+		Product obj = prodMapper.toEntity(prod);
 		obj.setPid(generateProductId());
-	    obj.setOwnerId(prod.getOwnerId());
-	    obj.setCategoryId(prod.getCategoryId());
-	    obj.setName(prod.getName());
-	    obj.setBrand(prod.getBrand());
-	    obj.setManufactureDate(prod.getManufactureDate());
-	    obj.setExpiryDate(prod.getExpiryDate());
-	    obj.setDescription(prod.getDescription());
-	    obj.setPricing(Pricing.builder().currency(prod.getPricing().getCurrency()).discount(prod.getPricing().getDiscount()).finalPrice(prod.getPricing().getFinalPrice()).price(prod.getPricing().getPrice()).build());
-	    obj.setInventory(Inventory.builder().reservedStock(prod.getInventory().getReservedStock()).totalStock(prod.getInventory().getTotalStock()).build());
-	    List<Variant> variants = prod.getVariants().stream().map(ele->Variant.builder()
-	    		.variantId(ele.getVariantId())
-	    		.sku(ele.getSku())
-	    		.price(ele.getPrice())
-	    		.stock(ele.getStock())
-	    		.status(VariantStatus.ACTIVE)
-	    		.attributes(ele.getAttributes())
-	    		.build())
-	    		.toList();
-	    obj.setVariants(variants);
-	    obj.setAttributes(prod.getAttributes());
-	    obj.setImages(prod.getImages());
+ 	    obj.setStatus(ProductStatus.ACTIVE);
+        obj.setCreatedAt(LocalDateTime.now());
+		ProductDTO productdto =prodMapper.toDto(productDao.insertProduct(obj));
+		
+		return CommonUtils.prepareResponse("Product Had Added ",productdto , HttpStatus.OK.value());
+	}
 
-	    obj.setStatus(ProductStatus.ACTIVE);
-	    obj.setCreatedAt(LocalDateTime.now());
-		return CommonUtils.prepareResponse("Product Had Added ", productDao.insertProduct(obj), HttpStatus.OK.value());
+	@Override
+	public ResponseDto<Object> validateProduct(String pid, int qnt) {
+		
+		System.out.println("I am here..!!");
+		
+		Product prod = productDao.getProduct(pid);
+		if(!ObjectUtils.isEmpty(prod)) {
+			
+		if(prod.getInventory().getTotalStock()>qnt && prod.getExpiryDate().isAfter(LocalDate.now())) {
+			return CommonUtils.prepareResponse("Product  Available ",prodMapper.toDto(prod), HttpStatus.OK.value());
+		}
+		}
+		return null;
 	}
 	
 	

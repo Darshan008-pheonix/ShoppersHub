@@ -16,6 +16,8 @@ import lombok.Data;
 
 @Data
 public class ProductDTO {
+	
+	private String pid;
 
     @NotBlank
     private String ownerId;
