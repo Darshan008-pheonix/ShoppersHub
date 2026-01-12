@@ -66,26 +66,48 @@ public class ProductServiceImpln implements IProductService {
 	@Override
 	public ResponseDto<Object> validateProduct(String pid, int qnt) {
 		
-		
-		
 		Product prod = productDao.getProduct(pid);
 		if(!ObjectUtils.isEmpty(prod)) {
 			
 		if(prod.getInventory().getTotalStock()>qnt && prod.getExpiryDate().isAfter(LocalDate.now())) {
-			return CommonUtils.prepareResponse("Product  Available ",prodMapper.toDto(prod), HttpStatus.OK.value());
+			return CommonUtils.prepareResponse("Product  Available",prodMapper.toDto(prod), HttpStatus.OK.value());
 		}
 		}
 		return null;
 	}
+	
+	
 
 	@Override
 	public ResponseDto<Object> reserveProduct(String pid, int qnt) {
-		/*
-		 * Check and again validate qnt vs inventory stocks
-		 */
-		productDao.reservePro(pid,qnt);
+		ResponseDto<Object> response1=validateProduct(pid, qnt);
 		
-		return null;
+		
+		if(!ObjectUtils.isEmpty(response1)  &&  !ObjectUtils.isEmpty(response1.getData())) {
+				long count=productDao.reservePro(pid,qnt);	
+				if(count>=1) {
+					return CommonUtils.prepareResponse(CommonUtils.Product_Reserved,null, HttpStatus.OK.value());
+				}
+				else {
+					return CommonUtils.prepareResponse("Product Not Found Or Qty Is High",null, HttpStatus.NOT_FOUND.value());
+
+				}
+		}
+		else {
+			return CommonUtils.prepareResponse("Product Un-Available",null, HttpStatus.NOT_FOUND.value());
+		}
+	}
+
+	@Override
+	public ResponseDto<Object> releaseProduct(String pid, int qnt) {
+		long count=productDao.releasePro(pid,qnt);
+		if(count>=1) {
+			return CommonUtils.prepareResponse(CommonUtils.Product_Released,null, HttpStatus.OK.value());
+		}
+		else {
+			return CommonUtils.prepareResponse("Product Cant Be Released",null, HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+		}
 	}
 	
 	

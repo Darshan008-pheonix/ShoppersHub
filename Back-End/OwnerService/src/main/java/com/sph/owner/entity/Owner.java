@@ -2,6 +2,8 @@ package com.sph.owner.entity;
 
 
 
+
+
 import com.sph.util.model.Address;
 
 import jakarta.persistence.CascadeType;
@@ -11,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -35,7 +38,12 @@ import lombok.NoArgsConstructor;
     uniqueConstraints = {
         @UniqueConstraint(columnNames = "email"),
         @UniqueConstraint(columnNames = "gst_number")
+    },
+    indexes = {
+      @Index(name = "index_phoneNumber", columnList = "phone_number")
     }
+   
+    
     )
 public class Owner {
 	@Id

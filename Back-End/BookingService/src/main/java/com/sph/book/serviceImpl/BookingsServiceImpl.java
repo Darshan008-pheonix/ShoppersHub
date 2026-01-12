@@ -8,14 +8,18 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-
+import com.mongodb.client.MongoClient;
 import com.sph.book.config.MongoConfig;
 import com.sph.book.controller.BookingsController;
+import com.sph.book.dao.BookingsDao;
 import com.sph.book.dto.CheckoutRequestDto;
 import com.sph.book.dto.OrderRequestDto;
+import com.sph.book.dto.OrderResponseDto;
+import com.sph.book.entity.BookingSaga;
 import com.sph.book.entity.BookingStatus;
 import com.sph.book.entity.Bookings;
-
+import com.sph.book.entity.PaymentStatus;
+import com.sph.book.entity.SagaStep;
 import com.sph.book.service.BookingsService;
 import com.sph.book.service.ProductClient;
 import com.sph.util.dto.CheckoutResponseDto;
@@ -28,6 +32,8 @@ import tools.jackson.databind.ObjectMapper;
 @Service
 public class BookingsServiceImpl implements BookingsService{
 
+    private final MongoClient mongoClient;
+
   
 	
 	@Autowired
@@ -36,8 +42,13 @@ public class BookingsServiceImpl implements BookingsService{
 	@Autowired
 	private ObjectMapper objectMapper;
 	
-	
+	@Autowired
+	BookingsDao bookingsDao;
 
+
+    BookingsServiceImpl(MongoClient mongoClient) {
+        this.mongoClient = mongoClient;
+    } 
  
 	
 	
@@ -62,30 +73,72 @@ public class BookingsServiceImpl implements BookingsService{
                     .tax(tax)
                     .deliveryCharge(delivery)
                     .totalAmount(price + tax + delivery)
-                    .eta("3-5 Days")
+                    .eta("3-5 Days").ownerId(dto.getOwnerId())
                     .build();
 		return CommonUtils.prepareResponse("Product Is Available ", checkOutresponseDto,HttpStatus.OK.value() );
 		}
 	}
 
 
-
-
-
-
-
 	@Override
 	public ResponseDto<?> orderProduct(OrderRequestDto request) {
-		ResponseDto<Object> response = productClient.validateProduct(request.productId(),request.quantity());
 		
-		productClient.reserveProduct(request.productId(), request.quantity());
-		/*
-		 * Check wheater the reserveProduct is returing success message go and create booking Object
-		 */
+		BookingSaga bookingSaga=new BookingSaga();
+		updateBookingSaga(bookingSaga,SagaStep.REVERSING_PRODUCT, null);
+		ResponseDto<Object> response=productClient.reserveProduct(request.productId(), request.quantity());
 		
+		if(response.getMessage().equals(CommonUtils.Product_Reserved)) {
+			updateBookingSaga(bookingSaga,SagaStep.PRODUCT_RESERVED, null);
+			
+			updateBookingSaga(bookingSaga,SagaStep.CREATING_BOOKING, null);
+			
+		try {
+			Bookings book=new Bookings();
+			book.setBookingId(request.BookingId());
+			book.setBookingStatus(BookingStatus.PAYMENT_PENDING);
+			book.setCreatedAt(Instant.now());
+			book.setOwnerId(request.ownerID());
+			book.setPaymentStatus(PaymentStatus.PENDING);
+			book.setQty(request.quantity());
+			book.setTotalcost(request.totalCost());
+			book.setUpdatedAt(Instant.now());
+			book.setPaymentType(request.paymentType());
+			Bookings obj = bookingsDao.createBooking(book);
+			if(ObjectUtils.isEmpty(obj)) {
+				throw new Exception();
+			}
+				OrderResponseDto dto=new OrderResponseDto();
+				dto.setBookingId(book.getBookingId());
+				dto.setPaymentType(book.getPaymentType());
+				updateBookingSaga(bookingSaga,SagaStep.BOOKING_CREATED, null);
+				return CommonUtils.prepareResponse("Booking Created Payment Pending",dto,HttpStatus.OK.value());
+		}
+		catch(Exception e) {
+			updateBookingSaga(bookingSaga,SagaStep.FAILED, "Failed While Creating Booking");
+			System.out.println("Releasing the Reserved Product....!!!");
+			ResponseDto<Object> releaseReposnse=productClient.releaseProduct(request.productId(), request.quantity());
+			if(releaseReposnse.getMessage().equals(CommonUtils.Product_Released)) {
+				return CommonUtils.prepareResponse("Product Had Been Released...!!",null,HttpStatus.NOT_ACCEPTABLE.value());
+			}
+			else {
+				updateBookingSaga(bookingSaga,SagaStep.FAILED, "Failed Creating Booking But Also Relase API Not Working...!!!");
+				return CommonUtils.prepareResponse(releaseReposnse.getMessage(),null,releaseReposnse.getStatus());
+			}
+		}
 		
+		}
+		else {
+			updateBookingSaga(bookingSaga,SagaStep.FAILED,"Failed While Reserving Product..!!!");
+			return CommonUtils.prepareResponse(response.getMessage(),null,response.getStatus());
+		}
 		
-		return null;
+	}
+	
+	void updateBookingSaga(BookingSaga bookingSaga,SagaStep currentStep,String failureReason){
+		bookingSaga.setCurrentStep(currentStep);
+		bookingSaga.setFailureReason(failureReason);
+		bookingSaga.setUpdatedAt(Instant.now());
+		bookingsDao.updateSaga(bookingSaga);
 	}
 	
 

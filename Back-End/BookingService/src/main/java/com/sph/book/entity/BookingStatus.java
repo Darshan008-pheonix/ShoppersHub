@@ -11,5 +11,6 @@ public enum BookingStatus {
     OUT_FOR_DELIVERY,
     DELIVERED,
     CANCELLED,
-    RETURNED
+    RETURNED,
+    PAYMENT_PENDING
 }

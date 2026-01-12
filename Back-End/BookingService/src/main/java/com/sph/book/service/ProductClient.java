@@ -18,4 +18,8 @@ public interface ProductClient {
 	
 	@PatchMapping("/reserveProduct")
 	ResponseDto<Object> reserveProduct(@RequestParam String pid,@RequestParam int qnt );
+	
+	
+	@PatchMapping("/reserveProduct")
+	ResponseDto<Object> releaseProduct(@RequestParam String pid,@RequestParam int qnt );
 }

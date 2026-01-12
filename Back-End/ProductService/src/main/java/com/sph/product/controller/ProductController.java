@@ -44,6 +44,10 @@ public class ProductController {
 		return service.reserveProduct(pid,qnt);
 	}
 
+	@PatchMapping("/reserveProduct")
+	ResponseDto<Object> releaseProduct(@RequestParam String pid,@RequestParam int qnt ){
+		return service.releaseProduct(pid,qnt);
+	}
 	
 	
 }
