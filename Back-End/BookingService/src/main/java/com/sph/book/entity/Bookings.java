@@ -5,6 +5,9 @@ import java.time.Instant;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.sph.util.model.PaymentStatus;
+import com.sph.util.model.PaymentType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,9 +47,7 @@ public class Bookings{
     private double totalcost;
     private BookingStatus bookingStatus;
     private PaymentStatus paymentStatus;
-    private PaymentType paymentType;
-
-    private String receiptId;   
+    private PaymentType paymentType;  
 
     private Instant createdAt;
     private Instant updatedAt;

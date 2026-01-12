@@ -1,4 +1,4 @@
-package com.sph.book.entity;
+package com.sph.util.model;
 
 public enum PaymentType {
 	

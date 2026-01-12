@@ -1,7 +1,7 @@
 package com.sph.book.dto;
 
-import com.sph.book.entity.PaymentType;
 import com.sph.util.model.Address;
+import com.sph.util.model.PaymentType;
 
 public record OrderRequestDto(String productId,
 		String userId,
