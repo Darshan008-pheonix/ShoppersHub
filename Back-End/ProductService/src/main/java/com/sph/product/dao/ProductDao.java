@@ -9,8 +9,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import com.mongodb.client.result.UpdateResult;
 import com.sph.product.config.MongoConfig;
 import com.sph.product.entity.Product;
 
@@ -39,14 +41,43 @@ public class ProductDao {
 	}
 
 
-	public void reservePro(String pid, int qnt) {
-		// TODO Auto-generated method stub
-		
-		/*
-		 * Write a query to update the product
-		 * 
-		 */
-		
+	public long reservePro(String pid, int qnt) {
+	
+		 Query query = new Query();
+		    query.addCriteria(
+		        Criteria.where("pid").is(pid)
+		                .and("inventory.totalStock").gte(qnt)
+		    );
+
+		    Update update = new Update()
+		            .inc("inventory.totalStock", -qnt)
+		            .inc("inventory.reservedStock", qnt);
+
+		    UpdateResult result = mongoTemplate.updateFirst(
+		            query,
+		            update,
+		            Product.class
+		    );
+		    return result.getModifiedCount();
+	}
+
+
+	public long releasePro(String pid, int qnt) {
+		 Query query = new Query();
+		    query.addCriteria(
+		        Criteria.where("pid").is(pid)
+		    );
+
+		    Update update = new Update()
+		            .inc("inventory.totalStock", qnt)
+		            .inc("inventory.reservedStock",-qnt);
+
+		    UpdateResult result = mongoTemplate.updateFirst(
+		            query,
+		            update,
+		            Product.class
+		    );
+		    return result.getModifiedCount();
 	}
 	
 	

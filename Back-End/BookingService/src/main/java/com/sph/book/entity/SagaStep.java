@@ -1,0 +1,13 @@
+package com.sph.book.entity;
+
+public enum SagaStep {
+	    BOOKING_CREATED,
+	    INVENTORY_RESERVED,
+	    PAYMENT_INITIATED,
+	    PAYMENT_COMPLETED,
+	    COMPLETED,
+	    FAILED,
+	    PRODUCT_RESERVED,
+	    CREATING_BOOKING,
+	    REVERSING_PRODUCT
+}

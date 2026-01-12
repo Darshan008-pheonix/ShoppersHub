@@ -44,6 +44,7 @@ public class Bookings{
     private double totalcost;
     private BookingStatus bookingStatus;
     private PaymentStatus paymentStatus;
+    private PaymentType paymentType;
 
     private String receiptId;   
 

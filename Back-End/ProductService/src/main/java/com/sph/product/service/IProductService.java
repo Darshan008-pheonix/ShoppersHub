@@ -11,4 +11,6 @@ public interface IProductService {
 	ResponseDto<Object> validateProduct(String pid, int qnt);
 
 	ResponseDto<Object> reserveProduct(String pid, int qnt);
+
+	ResponseDto<Object> releaseProduct(String pid, int qnt);
 }

@@ -15,4 +15,5 @@ public class CheckoutResponseDto {
     private double deliveryCharge;
     private double totalAmount;
     private String eta;
+    private String ownerId;
 }

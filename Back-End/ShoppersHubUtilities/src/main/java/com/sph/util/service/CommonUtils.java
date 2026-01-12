@@ -5,6 +5,10 @@ import com.sph.util.dto.ResponseDto;
 public class CommonUtils {
 	
 	
+	public static final String Product_Reserved="Product_Reserved";
+	public static final String Product_Released="Product_Released";
+	
+	
 	public static ResponseDto<Object> prepareResponse(String message,Object Data,int status){
 		ResponseDto<Object> response=new ResponseDto<>();
 		response.setMessage(message);
