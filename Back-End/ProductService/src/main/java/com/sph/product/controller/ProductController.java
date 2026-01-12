@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,12 +40,12 @@ public class ProductController {
 	}
 	
 	
-	@PatchMapping("/reserveProduct")
+	@PutMapping("/reserveProduct")
 	ResponseDto<Object> reserveProduct(@RequestParam String pid,@RequestParam int qnt ){
 		return service.reserveProduct(pid,qnt);
 	}
 
-	@PatchMapping("/reserveProduct")
+	@PutMapping("/releaseProduct")
 	ResponseDto<Object> releaseProduct(@RequestParam String pid,@RequestParam int qnt ){
 		return service.releaseProduct(pid,qnt);
 	}

@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Document(collection = "counters")
 @Data
-public class DatabaseSequence {
+public class SagaDatabaseSequence {
 
     @Id
     private String id;   

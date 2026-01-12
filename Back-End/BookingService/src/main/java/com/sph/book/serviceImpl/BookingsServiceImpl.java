@@ -12,19 +12,20 @@ import com.mongodb.client.MongoClient;
 import com.sph.book.config.MongoConfig;
 import com.sph.book.controller.BookingsController;
 import com.sph.book.dao.BookingsDao;
+import com.sph.book.dao.SagaCounterService;
 import com.sph.book.dto.CheckoutRequestDto;
 import com.sph.book.dto.OrderRequestDto;
 import com.sph.book.dto.OrderResponseDto;
 import com.sph.book.entity.BookingSaga;
 import com.sph.book.entity.BookingStatus;
 import com.sph.book.entity.Bookings;
-import com.sph.book.entity.PaymentStatus;
 import com.sph.book.entity.SagaStep;
 import com.sph.book.service.BookingsService;
 import com.sph.book.service.ProductClient;
 import com.sph.util.dto.CheckoutResponseDto;
 import com.sph.util.dto.ProductDTO;
 import com.sph.util.dto.ResponseDto;
+import com.sph.util.model.PaymentStatus;
 import com.sph.util.service.CommonUtils;
 
 import tools.jackson.databind.ObjectMapper;
@@ -44,6 +45,9 @@ public class BookingsServiceImpl implements BookingsService{
 	
 	@Autowired
 	BookingsDao bookingsDao;
+	
+	@Autowired
+	SagaCounterService sagaCounterService;
 
 
     BookingsServiceImpl(MongoClient mongoClient) {
@@ -79,11 +83,17 @@ public class BookingsServiceImpl implements BookingsService{
 		}
 	}
 
+	
+	String generateSagaId() {
+		  long seq = sagaCounterService.getNextSequence("product");
+	      return "SAGA" + String.format("%03d", seq);
+	}
 
 	@Override
 	public ResponseDto<?> orderProduct(OrderRequestDto request) {
 		
 		BookingSaga bookingSaga=new BookingSaga();
+		bookingSaga.setSagaId(generateSagaId());
 		updateBookingSaga(bookingSaga,SagaStep.REVERSING_PRODUCT, null);
 		ResponseDto<Object> response=productClient.reserveProduct(request.productId(), request.quantity());
 		
@@ -110,6 +120,7 @@ public class BookingsServiceImpl implements BookingsService{
 				OrderResponseDto dto=new OrderResponseDto();
 				dto.setBookingId(book.getBookingId());
 				dto.setPaymentType(book.getPaymentType());
+				bookingSaga.setBookingId(book.getBookingId());
 				updateBookingSaga(bookingSaga,SagaStep.BOOKING_CREATED, null);
 				return CommonUtils.prepareResponse("Booking Created Payment Pending",dto,HttpStatus.OK.value());
 		}
@@ -133,6 +144,8 @@ public class BookingsServiceImpl implements BookingsService{
 		}
 		
 	}
+	
+	
 	
 	void updateBookingSaga(BookingSaga bookingSaga,SagaStep currentStep,String failureReason){
 		bookingSaga.setCurrentStep(currentStep);
