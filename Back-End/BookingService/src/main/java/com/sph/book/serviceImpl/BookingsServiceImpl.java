@@ -23,6 +23,7 @@ import com.sph.book.entity.SagaStep;
 import com.sph.book.service.BookingsService;
 import com.sph.book.service.ProductClient;
 import com.sph.util.dto.CheckoutResponseDto;
+import com.sph.util.dto.PaymentAndRecpietDto;
 import com.sph.util.dto.ProductDTO;
 import com.sph.util.dto.ResponseDto;
 import com.sph.util.model.PaymentStatus;
@@ -95,7 +96,7 @@ public class BookingsServiceImpl implements BookingsService{
 		BookingSaga bookingSaga=new BookingSaga();
 		bookingSaga.setSagaId(generateSagaId());
 		updateBookingSaga(bookingSaga,SagaStep.REVERSING_PRODUCT, null);
-		ResponseDto<Object> response=productClient.reserveProduct(request.productId(), request.quantity());
+		ResponseDto<Object> response=productClient.reserveProduct(request.getProductId(), request.getQuantity());
 		
 		if(response.getMessage().equals(CommonUtils.Product_Reserved)) {
 			updateBookingSaga(bookingSaga,SagaStep.PRODUCT_RESERVED, null);
@@ -104,30 +105,29 @@ public class BookingsServiceImpl implements BookingsService{
 			
 		try {
 			Bookings book=new Bookings();
-			book.setBookingId(request.BookingId());
+			book.setBookingId(request.getBookingId());
 			book.setBookingStatus(BookingStatus.PAYMENT_PENDING);
 			book.setCreatedAt(Instant.now());
-			book.setOwnerId(request.ownerID());
+			book.setOwnerId(request.getOwnerID());
 			book.setPaymentStatus(PaymentStatus.PENDING);
-			book.setQty(request.quantity());
-			book.setTotalcost(request.totalCost());
+			book.setQty(request.getQuantity());
+			book.setTotalcost(request.getTotalCost());
 			book.setUpdatedAt(Instant.now());
-			book.setPaymentType(request.paymentType());
+			book.setPaymentType(request.getPaymentType());
 			Bookings obj = bookingsDao.createBooking(book);
 			if(ObjectUtils.isEmpty(obj)) {
 				throw new Exception();
 			}
-				OrderResponseDto dto=new OrderResponseDto();
-				dto.setBookingId(book.getBookingId());
-				dto.setPaymentType(book.getPaymentType());
-				bookingSaga.setBookingId(book.getBookingId());
+				request.setBookingId(obj.getBookingId());
 				updateBookingSaga(bookingSaga,SagaStep.BOOKING_CREATED, null);
-				return CommonUtils.prepareResponse("Booking Created Payment Pending",dto,HttpStatus.OK.value());
+
+				request.setBookingId(obj.getBookingId());
+				return CommonUtils.prepareResponse("Booking Created Payment Pending",request,HttpStatus.OK.value());
 		}
 		catch(Exception e) {
 			updateBookingSaga(bookingSaga,SagaStep.FAILED, "Failed While Creating Booking");
 			System.out.println("Releasing the Reserved Product....!!!");
-			ResponseDto<Object> releaseReposnse=productClient.releaseProduct(request.productId(), request.quantity());
+			ResponseDto<Object> releaseReposnse=productClient.releaseProduct(request.getProductId(), request.getQuantity());
 			if(releaseReposnse.getMessage().equals(CommonUtils.Product_Released)) {
 				return CommonUtils.prepareResponse("Product Had Been Released...!!",null,HttpStatus.NOT_ACCEPTABLE.value());
 			}

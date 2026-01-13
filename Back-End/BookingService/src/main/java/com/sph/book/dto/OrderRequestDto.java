@@ -3,17 +3,22 @@ package com.sph.book.dto;
 import com.sph.util.model.Address;
 import com.sph.util.model.PaymentType;
 
-public record OrderRequestDto(String productId,
-		String userId,
-		String BookingId,
-		String ownerID,
-		int quantity,
-		double totalCost,
-		double tax,
-		double deliveryfee,
-		PaymentType paymentType,
-		String receiver_number,
-		Address billingAddress,
-		Address deliveryAddress) {
+import lombok.Data;
+
+@Data
+public class OrderRequestDto{
+		String productId;
+		String userId;
+		String BookingId;
+		double itemPrice;
+		String ownerID;
+		int quantity;
+		double totalCost;
+		double tax;
+		double deliveryfee;
+		PaymentType paymentType;
+		String receiver_number;
+		Address billingAddress;
+		Address deliveryAddress;
 
 }
