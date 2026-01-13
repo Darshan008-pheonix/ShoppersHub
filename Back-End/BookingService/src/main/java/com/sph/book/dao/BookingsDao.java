@@ -1,7 +1,11 @@
 package com.sph.book.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -22,21 +26,42 @@ public class BookingsDao {
 		Bookings bookings2 =dbCon.save(bookings);
 		return bookings2;
 	}
+	
+	
+	
 
 	public BookingSaga updateSaga(BookingSaga bookingSaga) {
+		if (bookingSaga == null) {
+			throw new IllegalArgumentException("bookingSaga must not be null");
+		}
+       
 		MongoTemplate dbCon = mongoConfig.getConnection("BookingSaga");
-		BookingSaga sag=dbCon.findById(bookingSaga.getBookingId(),BookingSaga.class);
-		
-		if(ObjectUtils.isEmpty(sag)) {
-		return  dbCon.save(bookingSaga);
+
+		if (ObjectUtils.isEmpty(dbCon.findById(bookingSaga.getSagaId(), BookingSaga.class))) {
+			return dbCon.save(bookingSaga);
 		}
-		else {
-			sag.setBookingId(bookingSaga.getBookingId());
-			sag.setCurrentStep(bookingSaga.getCurrentStep());
-			sag.setUpdatedAt(bookingSaga.getUpdatedAt());
-			sag.setFailureReason(bookingSaga.getFailureReason());
-			return dbCon.save(sag);
+
+		Query query = new Query(Criteria.where("sagaId").is(bookingSaga.getSagaId()));
+		Update update = new Update();
+		if (bookingSaga.getBookingId() != null) {
+			update.set("bookingId", bookingSaga.getBookingId());
 		}
+		if (bookingSaga.getCurrentStep() != null) {
+			update.set("currentStep", bookingSaga.getCurrentStep());
+		}
+		if (bookingSaga.getUpdatedAt() != null) {
+			update.set("updatedAt", bookingSaga.getUpdatedAt());
+		}
+		if (bookingSaga.getFailureReason() != null) {
+			update.set("failureReason", bookingSaga.getFailureReason());
+		}
+		FindAndModifyOptions options = new FindAndModifyOptions().upsert(true).returnNew(true);
+		BookingSaga result = dbCon.findAndModify(query, update, options, BookingSaga.class);
+
+		if (result == null) {
+			return dbCon.save(bookingSaga);
+		}
+		return result;
 	}
 
 
