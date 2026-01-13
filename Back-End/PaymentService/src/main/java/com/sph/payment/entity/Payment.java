@@ -2,12 +2,12 @@ package com.sph.payment.entity;
 
 import java.time.Instant;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.sph.util.model.PaymentStatus;
 import com.sph.util.model.PaymentType;
 
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

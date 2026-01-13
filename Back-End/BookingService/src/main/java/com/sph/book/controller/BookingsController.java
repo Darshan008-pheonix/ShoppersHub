@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sph.book.dto.CheckoutRequestDto;
-import com.sph.book.dto.OrderRequestDto;
+
 import com.sph.book.service.BookingsService;
+import com.sph.util.dto.OrderRequestDto;
 import com.sph.util.dto.ResponseDto;
 
 @RestController
@@ -30,6 +31,11 @@ public class BookingsController {
 		  return bookingsService.orderProduct(request);
 	  }
 	  
+	  
+	  @PostMapping("/pay")
+	  public ResponseDto<?> makePayment(@RequestBody OrderRequestDto request){
+		  return bookingsService.makePayment(request);
+	  }
 
 }
 
