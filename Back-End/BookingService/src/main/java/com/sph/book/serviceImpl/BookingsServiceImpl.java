@@ -14,19 +14,22 @@ import com.sph.book.controller.BookingsController;
 import com.sph.book.dao.BookingsDao;
 import com.sph.book.dao.SagaCounterService;
 import com.sph.book.dto.CheckoutRequestDto;
-import com.sph.book.dto.OrderRequestDto;
+
 import com.sph.book.dto.OrderResponseDto;
 import com.sph.book.entity.BookingSaga;
 import com.sph.book.entity.BookingStatus;
 import com.sph.book.entity.Bookings;
 import com.sph.book.entity.SagaStep;
 import com.sph.book.service.BookingsService;
+import com.sph.book.service.PaymentClient;
 import com.sph.book.service.ProductClient;
 import com.sph.util.dto.CheckoutResponseDto;
+import com.sph.util.dto.OrderRequestDto;
 import com.sph.util.dto.PaymentAndRecpietDto;
 import com.sph.util.dto.ProductDTO;
 import com.sph.util.dto.ResponseDto;
 import com.sph.util.model.PaymentStatus;
+import com.sph.util.model.PaymentType;
 import com.sph.util.service.CommonUtils;
 
 import tools.jackson.databind.ObjectMapper;
@@ -37,6 +40,8 @@ public class BookingsServiceImpl implements BookingsService{
     private final MongoClient mongoClient;
 
   
+    @Autowired
+    PaymentClient paymentClient;
 	
 	@Autowired
 	ProductClient productClient;
@@ -152,6 +157,24 @@ public class BookingsServiceImpl implements BookingsService{
 		bookingSaga.setFailureReason(failureReason);
 		bookingSaga.setUpdatedAt(Instant.now());
 		bookingsDao.updateSaga(bookingSaga);
+	}
+
+
+
+
+	@Override
+	public ResponseDto<?> makePayment(OrderRequestDto request) {
+		
+		if(request.getPaymentType()==PaymentType.UPI && request.getUpiId()==null) {
+			return CommonUtils.prepareResponse("UPI ID is Mandatory For UPI Payment Type",null,HttpStatus.BAD_REQUEST.value());
+		}
+		else {
+			paymentClient.processPayment(request);
+			
+			
+		}
+		
+		return null;
 	}
 	
 

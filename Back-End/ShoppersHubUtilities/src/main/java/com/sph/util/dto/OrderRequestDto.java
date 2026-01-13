@@ -1,4 +1,4 @@
-package com.sph.book.dto;
+package com.sph.util.dto;
 
 import com.sph.util.model.Address;
 import com.sph.util.model.PaymentType;
@@ -20,5 +20,11 @@ public class OrderRequestDto{
 		String receiver_number;
 		Address billingAddress;
 		Address deliveryAddress;
+		String upiId;
+		String cardNumber;
+		String cardExpiry;
+		String cardCvv;
+		String cardHolderName;
+		
 
 }
