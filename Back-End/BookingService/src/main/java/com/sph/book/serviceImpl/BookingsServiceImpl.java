@@ -169,6 +169,7 @@ public class BookingsServiceImpl implements BookingsService{
 			return CommonUtils.prepareResponse("UPI ID is Mandatory For UPI Payment Type",null,HttpStatus.BAD_REQUEST.value());
 		}
 		else {
+			System.out.println("Callindg Payment Service...!!!");
 			paymentClient.processPayment(request);
 			
 			

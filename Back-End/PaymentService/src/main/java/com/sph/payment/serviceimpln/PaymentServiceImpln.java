@@ -32,9 +32,18 @@ public class PaymentServiceImpln implements PaymentService {
 	ReceiptRepo receiptRepo;
 	
 	
+	/*
+	 * Configuration of database
+	 * Produce Message 
+	 * 
+	 */
+	
+	
 	@Override
 	public ResponseDto<?> processPayment(OrderRequestDto request) {
 	
+		
+		System.out.println("In Payment Service");
 		// Generate payment object
 		Payment payment = new Payment();
 		
