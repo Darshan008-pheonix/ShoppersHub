@@ -1,0 +1,16 @@
+package com.sph.util.model;
+
+public enum BookingStatus {
+
+	ORDER_PLACED,
+	PAYMENT_FAILED,
+    PAYMENT_IN_PROGRESS,
+    PAYMENT_COMPLETED,
+    SHIPPED,
+    IN_TRANSIT,
+    OUT_FOR_DELIVERY,
+    DELIVERED,
+    CANCELLED,
+    RETURNED,
+    PAYMENT_PENDING
+}

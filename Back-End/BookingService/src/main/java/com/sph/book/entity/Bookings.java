@@ -38,7 +38,7 @@ public class Bookings{
 	@Id
     private String bookingId;
 
-	
+	private String transactionId;
     private String userId;
     private String productId;
     private String ownerId;

@@ -28,7 +28,33 @@ public class BookingsDao {
 	}
 	
 	
-	
+	public Bookings findByTransactionId(String transactionId) {
+	    MongoTemplate dbCon = mongoConfig.getConnection("Bookings");
+	    Query query = new Query(Criteria.where("transactionId").is(transactionId));
+	    return dbCon.findOne(query, Bookings.class);
+	}
+	public Bookings updateBooking(Bookings booking) {
+	    if (booking == null || booking.getBookingId() == null) {
+	        throw new IllegalArgumentException("Booking or BookingId must not be null");
+	    }
+
+	    MongoTemplate dbCon = mongoConfig.getConnection("Bookings");
+
+	    Query query = new Query(Criteria.where("bookingId").is(booking.getBookingId()));
+
+	    Update update = new Update();
+	    update.set("bookingStatus", booking.getBookingStatus());
+	    update.set("paymentStatus", booking.getPaymentStatus());
+	    update.set("updatedAt", booking.getUpdatedAt());
+
+	    FindAndModifyOptions options = new FindAndModifyOptions()
+	            .returnNew(true)
+	            .upsert(false);
+
+	    return dbCon.findAndModify(query, update, options, Bookings.class);
+	}
+
+
 
 	public BookingSaga updateSaga(BookingSaga bookingSaga) {
 		if (bookingSaga == null) {
