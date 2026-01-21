@@ -85,7 +85,6 @@
 		<dependency>
 			 <groupId>com.sph</groupId>
     <artifactId>ShoppersHubUtilities</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
     <groupId>org.modelmapper</groupId>
@@ -112,12 +111,12 @@
     <version>1.5.5.Final</version>
 </dependency>
 
-<dependency>
+<!--<dependency>
     <groupId>org.mapstruct</groupId>
     <artifactId>mapstruct-processor</artifactId>
     <version>1.5.5.Final</version>
     <scope>provided</scope>
-</dependency>
+</dependency>-->
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -142,10 +141,15 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			
-			
 
 
+
+
+			<dependency>
+				<groupId>com.sph</groupId>
+				<artifactId>ShoppersHubUtilities</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
