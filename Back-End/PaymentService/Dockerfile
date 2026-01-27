@@ -1,0 +1,7 @@
+FROM openjdk:17.0.1-jdk-slim
+
+MAINTAINER sph.com
+
+COPY target/PaymentService-0.0.1-SNAPSHOT.jar PaymentService-0.0.1-SNAPSHOT.jar
+
+ENTRYPOINT ["java","-jar","PaymentService-0.0.1-SNAPSHOT.jar"]
